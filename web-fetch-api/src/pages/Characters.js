@@ -20,20 +20,10 @@ const Characters = () => {
       setIsLoading(true);
       const result= await fetch("https://randomuser.me/api/?results=12&gender=female");
       const {results}=await result.json();
-      console.log("debil- ", results)
+      
       setData(results);
-      console.log("kokot- ", results)
-      results.sort((a,b)=>{
-        const nameA = a.name.first.toUpperCase();
-        const nameB = b.name.first.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0;
-      });
+      
+      results.sort((a,b) => a.name.first.localeCompare(b.name.first))
       setIsLoading(false);
     }
   
@@ -50,10 +40,8 @@ const Characters = () => {
     <Sidebar isOpen={isOpen} toggle={toggle} />
     <Navbar toggle={toggle}/>
     <div className="App">
-      <button 
-      onClick={fetchData}
-      
-      >{isLoading ? "Loading..." : "Refetch"}</button>
+      <button onClick={fetchData}>
+      {isLoading ? "Loading..." : "Refetch"}</button>
       {data.map((item) =>{
         return(
           <div className= "gallery" key={item.id}>
